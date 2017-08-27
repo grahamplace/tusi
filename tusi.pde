@@ -1,38 +1,38 @@
-
 //GLOBALS
 int w = 800;
-float r = (w * .75) / 2;
-int count;
-float period = 120;
+float r = (w * .9) / 2;
+float small_r = 0.03 * r;
+int frame_count = 0;
+float period = 180;
+int num_circles = 8;
+float degree_step = 180.0 / num_circles;
 
 void setup() {
   frameRate(60);
-  count = 0;
-  size(800,800);
+  size(800, 800);
   smooth();
 }
 
 void draw() {
   translate(w/2,w/2);
-  count++;
+  frame_count++;
   background(255);
-  fill(0);
   drawBaseCircle();
+  drawLines();
   drawInnerCircles();
 }
 
 void drawBaseCircle() {
   fill(0);
   stroke(0);
-  ellipse(0, 0, w * .75, w * .75);
-  stroke(155);
-  line(0, -r, 0, r);
-  line(-r, 0, r, 0);
-  line(-r, 0, r, 0);
-  
-  for (float i = 0; i <= 360; i+=22.5) {
-    float x = 0 + cos(radians(i)) * r;
-    float y = 0 + sin(radians(i)) * r;
+  ellipse(0, 0, r * 2, r * 2);
+}
+
+void drawLines() {
+  stroke(200);
+  for (float i = 0; i <= 360; i+=(degree_step)) {
+    float x = cos(radians(i)) * r;
+    float y = sin(radians(i)) * r;
     line(0, 0, x, y);
   }
 }
@@ -40,8 +40,10 @@ void drawBaseCircle() {
 void drawInnerCircles() {
   fill(255);
   stroke(255);
-  float y_val = ((w/2) * .715) * sin(TWO_PI * count / period);
-  float x_val = ((w/2) * .715) * cos(TWO_PI * count / period);  
-  ellipse(0, y_val, w * .03, w * .03);
-  ellipse(x_val, 0, w * .03, w * .03);
+  int j = 0;
+  for (float i = 0; i < 180; i+=(degree_step)) {
+    float rad = (r * .97) * cos((TWO_PI / period * frame_count) + ((j * PI) / 8 ));
+    ellipse(rad * cos(radians(i)), rad * sin(radians(i)), w * .03, w * .03);
+    j++;
+  }
 }
