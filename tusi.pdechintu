@@ -1,7 +1,7 @@
 //GLOBALS
 int w = 800;
 float r = (w * .9) / 2;
-float small_r = 0.03 * r;
+float small_R= 0.03 * r;
 int frame_count = 0;
 float period = 180;
 int num_circles = 8;
@@ -12,7 +12,6 @@ void setup() {
   size(800, 800);
   smooth();
 }
-
 void draw() {
   translate(w/2,w/2);
   frame_count++;
